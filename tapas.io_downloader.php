@@ -21,7 +21,6 @@ function get_next_EPn(string $string) {
 		echo("\nNo episode number in/after #".$epC_nmbr." found.\n");
 		return null;
 	}
-	//var_dump($nextEPn);
 	$nextEPn = $nextEPn[1];
 	return $nextEPn;
 }
@@ -63,7 +62,7 @@ if (is_numeric($epC_nmbr)) {
 	if (!is_int($epC_nmbr)) $epC_nmbr = false;
 } else $epC_nmbr = false;
 if (!$epC_nmbr or (''.$epC_nmbr) !== (''.$myargs['e'])) { // to catch leading zeros like 01
-	exit_wait( $exitWT, 100, '"'.$myargs['e'].'"'." is not an int.\n");
+	exit_wait( $exitWT, 100, '"'.$myargs['e'].'"'." is not a valid int.\n");
 }
 
 // ------------     check for illegal chars in $targetPath (maybe the DOS/ansi/asci/whatever conversion is missing).
@@ -72,7 +71,7 @@ if (preg_filter( array('#[\n\*\?\|\<\>]#'), array(''), $targetPath)) exit_wait( 
 
 // clean $targetPath
 $pattern = array('#\\\\#', '#/#', '#['.DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR.']{2,}#'); // Dunno if this will work in linux
-$replace = array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);  // apparently PHP cant handle " in filenames...
+$replace = array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
 $targetPath = preg_filter( $pattern, $replace, $targetPath);
 
 // make sure $targetPath ends in DIRECTORY_SEPARATOR
@@ -107,17 +106,6 @@ if (!file_exists($targetPath)) {
 		}
 	}
 }
-
-
-/*
-	Better Structure:
-	1. put "get content of episode" in a function -> would need to make the whole thing recursive instead of iterative?! pros/cons?
-	
-	
-	DON'Ts:
-	d) use magic Numbers/Strings
-	
-*/
 
 
 // --------------------- Main loop ---------------------
