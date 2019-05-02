@@ -37,3 +37,4 @@ Let me know if it works on other OSs.
  * download episodes marked as mature too.
  * add optional argument to put a comic specific identifier at the beginning of all filenames.
  * or generate that preamble from the comic name?
+ * give different return value depending if any (and how many) images/objects were downloaded.
