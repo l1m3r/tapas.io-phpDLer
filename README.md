@@ -11,17 +11,17 @@ let me know if it works on other OSs.
 
 ## Usage:
 1. Get episode number to start from.
- * Go to the comic you want to download (usually the first page).
- * Copy the integer from the current URL.
+ * Go to the comics page from where you want to start downloading (usually the first).
+ * Copy the integer from that pages URL.
  * Examples: `https://tapas.io/episode/255222`  ->  `255222`
 2. Start the download.
  * Usage of `tapas.io_downloader.php`:
  ```
  tapas.io_downloader.php -e <EP#> -p <path>
  ```
- * Windows example:
+ * Windows example (can be saved in a shortcut/.lnk too):
  ```
- C:\php\php.exe tapas.io_downloader.php -e 255222 -p D:\WebComics\Erma
+ C:\php\php.exe tapas.io_downloader.php -e 255222 -p "D:\Web Comics\Erma"
  ```
  * The script will create the folder(s) if neccessary and store/save all images/objects of the comic in it.
  * If the folder already exists, it will resume downloading with/after the last saved episode.
