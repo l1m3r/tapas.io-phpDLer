@@ -6,8 +6,6 @@
  *
  * Original author/version by https://github.com/TilCreator
  *
- * @category   CategoryName
- * @package    PackageName
  * @author     l1m3r
  * @copyright  2019 l1mr3
  * @license    https://github.com/l1m3r/tapas.io-phpDLer/blob/master/LICENSE
@@ -140,9 +138,9 @@ while (!empty($epC_nmbr)) {
 		echo("Couldn't find any images in Episode ".$epC_nmbr." (".$epImgNmbr.")\n".
 			"Maybe it's marked as mature -> creating URL-File & skipping to the next episode.\n"
 		);
-		file_put_contents(get_cFileName(++$globStoreCnt, $epC_nmbr, $globFnDiv2.'M-Flagged-IMG_DL-Manually.URL'),
+		if (!file_put_contents(get_cFileName(++$globStoreCnt, $epC_nmbr, $globFnDiv2.'M-Flagged-IMG_DL-Manually.URL'),
 			'[InternetShortcut]'."\n".
-			'URL='.$baseULR.$epC_nmbr.$sitePref."\n");
+			'URL='.$baseULR.$epC_nmbr.$sitePref."\n")) exit_wait( $exitWT, 51, 'Error saving file for EP"'.$globStoreCnt.'".'."\n");
 		
 		// get # of next episode
 		$epC_nmbr = get_next_EPn($site);
@@ -178,7 +176,7 @@ while (!empty($epC_nmbr)) {
 			// download and save the actual object/image
 			echo('saving "'.$file_fullN.'"'.".\n");
 			$file_data = file_get_contents($imgUrls[$cI]);
-			file_put_contents($file_fullN, $file_data);  // MISSING - Catch errors... , dont overwrite etc...
+			if (!file_put_contents($file_fullN, $file_data)) exit_wait( $exitWT, 51, 'Error saving "'.$file_fullN.'".'."\n");
 		}
 	}
 	// Go to the next episode...
