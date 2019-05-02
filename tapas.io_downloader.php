@@ -57,7 +57,7 @@ function exit_wait(int $time, $var, $text = ''){
 // --------------------- read opts from argv
 $optind = 0;
 $myargs = getopt( "e:p:", array () , $optind);
-// Exit if not (2optsWithArgs + 1or2 = 5or6) or if myargs.count!=2.
+// Exit if not (2optsWithArgs + 1or2 = 5or6) or if $myargs.count!=2.
 if ($optind < 5 or $optind > 6 or count($myargs) != 2) {
 	exit_wait( $exitWT, +('1'.$optind.count($myargs)), "wrong number/kind of arguments given.\n
 	Required are
@@ -65,7 +65,7 @@ if ($optind < 5 or $optind > 6 or count($myargs) != 2) {
 		-p <path2dir were to save>
 	
 	Note that -e <#> is ignored when the -p path is already properly filled.\n\n");
-	// Number on the end of the url, if you open the first page of the comic. (Example: 'https://tapas.io/episode/2141' => '2141')
+	// Number on the end of the URL, if you open the first page of the comic. (Example: 'https://tapas.io/episode/2141' => '2141')
 }
 // -------------------------- check given option e if int.
 $epC_nmbr = $myargs['e'];
@@ -77,24 +77,25 @@ if (!$epC_nmbr or (''.$epC_nmbr) !== (''.$myargs['e'])) { // to catch leading ze
 	exit_wait( $exitWT, 100, '"'.$myargs['e'].'"'." is not an int.\n");
 }
 
-// ------------     check for illegal chars in $targetPath (maybe the DOS/ansi/asci/whatever conversion is missing).
+// ------------     check for illegal chars in $targetPath (maybe the DOS/ANSI/ASCII/whatever conversion is missing).
 $targetPath = $myargs['p'];
 if (preg_filter( array('#[\n\*\?\|\<\>]#'), array(''), $targetPath)) exit_wait( $exitWT, 101, 'Illegal chars in "'.$targetPath.'"'.".\n");
 
 // clean $targetPath
-$pattern = array('#\\\\#', '#/#', '#['.DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR.']{2,}#'); // Dunno if this will work in linux
+$pattern = array('#\\\\#', '#/#', '#['.DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR.']{2,}#'); // Dunno if this will work in Linux
 $replace = array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);  // apparently PHP cant handle " in filenames...
 $targetPath = preg_filter( $pattern, $replace, $targetPath);
 
 // make sure $targetPath ends in DIRECTORY_SEPARATOR
 if (substr($targetPath, -1) != DIRECTORY_SEPARATOR) $targetPath .= DIRECTORY_SEPARATOR;
 
+
 // -------------------------  Check if target path exist and create it if it doesn't.
 if (!file_exists($targetPath)) {
 	if (!mkdir($targetPath, 0777, true)) exit_wait( $exitWT, 102, 'Couldn\'t create target dir "'.$targetPath.'"'."\n");
 	echo($targetPath." created.\n");
 } else {
-	//	----------------  enum last saved episode and store it in $epC_nmbr
+	//	----------------  enumerate last saved episode and store it in $epC_nmbr
 	$lntd = null;
 	$lntd = scandir($targetPath, SCANDIR_SORT_DESCENDING);
 	if (count($lntd) > 2 ) { // skip if only . and .. exist.
@@ -124,9 +125,9 @@ if (!file_exists($targetPath)) {
 while (!empty($epC_nmbr)) {
 	$imgUrls = null;
 	
-	// Get html site of current EP
+	// Get HTML site of current EP
 	echo("\ngetting page of episode #".$epC_nmbr.".\n");
-	$site = file_get_contents($baseULR.$epC_nmbr.$sitePref); // MISSING - Catch errors... , dont overwrite etc...
+	$site = file_get_contents($baseULR.$epC_nmbr.$sitePref); // MISSING - Catch errors... , don't overwrite etc...
 	
 	// Write img-urls of current episode to array $imgUrls & count them to $epImgNmbr
 	$epImgNmbr = preg_match_all('|<img class="art-image" src="(.*)" width="|U', $site , $imgUrls);
