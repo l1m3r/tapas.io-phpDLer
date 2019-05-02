@@ -1,7 +1,7 @@
 # tapas.io WebComic downloader
 Unofficial downloader for webcomics on Tapas.io with automatic resume, written in PHP.
 
-Saved images get filenames like this: '<mainCounter>-<episode#> <episodeTitle>.<ext>'
+Saved images get filenames like this: `<mainCounter>-<episode#> <episodeTitle>.<ext>`
 
 
 ## Prerequisites:
