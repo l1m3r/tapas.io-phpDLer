@@ -32,3 +32,8 @@ Let me know if it works on other OSs.
  ```
  * The script will create the folder(s) if necessary and store/save all images/objects of the comic in it.
  * If the folder already exists, it will resume downloading with/after the last saved episode.
+
+## Missing features:
+ * download episodes marked as mature too.
+ * add optional argument to put a comic specific identifier at the beginning of all filenames.
+ * or generate that preamble from the comic name?
