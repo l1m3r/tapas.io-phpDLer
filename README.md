@@ -8,6 +8,7 @@ Unofficial downloader for webcomics on Tapas.io written in PHP.
 
 Saved images get filenames like this: `<mainCounter>-<episode#> <episodeTitle>.<ext>`
 
+The [original author](https://github.com/TilCreator/) of the [ancestor of this script](https://github.com/l1m3r/tapas.io-phpDLer/commit/7e54ee2) has written a [Perl alternative](https://github.com/TilCreator/Tapas-Comic-Downloader).
 
 ## Prerequisites:
 The only requirement is a compatible working php interpreter.
@@ -37,4 +38,4 @@ Let me know if it works on other OSs.
  * download episodes marked as mature too.
  * add optional argument to put a comic specific identifier at the beginning of all filenames.
  * or generate that preamble from the comic name?
- * give different return value depending if any (and how many) images/objects were downloaded.
+ * give different return value depending on if any (and how many) images/objects were downloaded.
