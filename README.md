@@ -5,6 +5,7 @@ Unofficial downloader for webcomics on Tapas.io written in PHP.
  * automatic resume. 
  * filenames of saved images/objects contain the episodes name.
  * compatible with episodes consisting of more then one image/object.
+ * doesn't stop at episodes marked as mature but saves URLs to them instead.
 
 Saved images get filenames like this: `<mainCounter>-<episode#> <episodeTitle>.<ext>`
 
