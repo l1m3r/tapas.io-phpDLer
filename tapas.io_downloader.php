@@ -15,10 +15,10 @@
 // Constants
 $baseULR='https://m.tapas.io/episode/';
 $sitePref='?site_preference=mobile';
-$globFnDiv1 = '-';  // Two filename dividers - used in regex and file_put_contents
+$globFnDiv1 = '-';  // Two filename dividers - used in regex and file_put_contents.
 $globFnDiv2 = ' ';
-$globStoreC_widht = 4;  // width of the first filename part - the +1 counter
-$exitWT = 3;
+$globStoreC_widht = 4;  // width of the first filename part - the +1 counter.
+$exitWT = 0;	// wait time in seconds "after" exit.
 
 $globStoreCnt = 0;
 $epC_existingObjC = 0;
@@ -81,14 +81,13 @@ if (!$epC_nmbr or (''.$epC_nmbr) !== (''.$myargs['e'])) { // to catch leading ze
 $targetPath = $myargs['p'];
 if (preg_filter( array('#[\n\*\?\|\<\>]#'), array(''), $targetPath)) exit_wait( $exitWT, 101, 'Illegal chars in "'.$targetPath.'"'.".\n");
 
-// clean $targetPath
+// make sure $targetPath ends in DIRECTORY_SEPARATOR - needs to come before cleanup!
+if (substr($targetPath, -1) != DIRECTORY_SEPARATOR) $targetPath .= DIRECTORY_SEPARATOR;
+
+// cleanup of $targetPath
 $pattern = array('#\\\\#', '#/#', '#['.DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR.']{2,}#'); // Dunno if this will work in Linux
 $replace = array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);  // apparently PHP cant handle " in filenames...
 $targetPath = preg_filter( $pattern, $replace, $targetPath);
-
-// make sure $targetPath ends in DIRECTORY_SEPARATOR
-if (substr($targetPath, -1) != DIRECTORY_SEPARATOR) $targetPath .= DIRECTORY_SEPARATOR;
-
 
 // -------------------------  Check if target path exist and create it if it doesn't.
 if (!file_exists($targetPath)) {
@@ -120,6 +119,7 @@ if (!file_exists($targetPath)) {
 	}
 }
 
+echo("\n --- Downloading to '".$targetPath."' ---\n");
 
 // --------------------- Main loop ---------------------
 while (!empty($epC_nmbr)) {
@@ -185,4 +185,4 @@ while (!empty($epC_nmbr)) {
 	$epC_existingObjC = 0;
 }
 
-exit_wait( $exitWT, 0, "\nFinished!\n");
+exit_wait( $exitWT, 0, "\n --- Finished! '".$targetPath."' ---\n\n");
