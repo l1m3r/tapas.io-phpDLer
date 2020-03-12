@@ -1,5 +1,5 @@
 # tapas.io WebComic Downloader
-Unofficial downloader for webcomics on Tapas.io written in PHP.
+Unofficial downloader for webcomics on https://Tapas.io/ written in PHP.
 
 ### Features:
  * automatic resume. 

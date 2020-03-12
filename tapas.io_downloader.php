@@ -28,11 +28,13 @@ $epC_existingObjC = 0;
 // get # of next episode
 function get_next_EPn(string $string) {
 	global $epC_nmbr;
-	$ERL = preg_match('|<a href="/episode/([0-9]+)" class="cell next|U', $string, $nextEPn);
+	// OLD Variant (~pre march 2020): $ERL = preg_match('|<a href="/episode/([0-9]+)" class="cell next|U', $string, $nextEPn);
+	$ERL = preg_match('|data-id="([0-9]+)">Next<i class="sp-ico-arrow-next">|U', $string, $nextEPn);
 	if(!$ERL || !$nextEPn[1]){
 		echo("\nNo episode number in/after #".$epC_nmbr." found.\n");
 		return null;
 	}
+	// var_dump($nextEPn);
 	$nextEPn = $nextEPn[1];
 	return $nextEPn;
 }
@@ -130,7 +132,8 @@ while (!empty($epC_nmbr)) {
 	$site = file_get_contents($baseULR.$epC_nmbr.$sitePref); // MISSING - Catch errors... , don't overwrite etc...
 	
 	// Write img-urls of current episode to array $imgUrls & count them to $epImgNmbr
-	$epImgNmbr = preg_match_all('|<img class="art-image" src="(.*)" width="|U', $site , $imgUrls);
+	// Old pre march 2020 version?: $epImgNmbr = preg_match_all('|<img class="art-image" src="(.*)" width="|U', $site , $imgUrls);
+	$epImgNmbr = preg_match_all('|<img src="(http.*)" class="content__img">|U', $site , $imgUrls);
 	if (!$epImgNmbr) if ($epC_existingObjC) {
 		// do not save M-URL if the M-file already exist.
 		$epImgNmbr = $epC_existingObjC;
@@ -141,7 +144,7 @@ while (!empty($epC_nmbr)) {
 		);
 		if (!file_put_contents(get_cFileName(++$globStoreCnt, $epC_nmbr, $globFnDiv2.'M-Flagged-IMG_DL-Manually.URL'),
 			'[InternetShortcut]'."\n".
-			'URL='.$baseULR.$epC_nmbr.$sitePref."\n")) exit_wait( $exitWT, 51, 'Error saving file for EP"'.$globStoreCnt.'".'."\n");
+			'URL='.$baseULR.$epC_nmbr.$sitePref."\n")) exit_wait( $exitWT, 51, 'Error saving file for mEP"'.$globStoreCnt.'".'."\n");
 		
 		// get # of next episode
 		$epC_nmbr = get_next_EPn($site);
@@ -157,7 +160,9 @@ while (!empty($epC_nmbr)) {
 		echo("Last object from #".$epC_nmbr." exists. -> skipping to next episode.\n");
 	} else {
 		// ---- get title of current EP ---------
-		$ERL = preg_match('|<h1 class="episode-title">\s*((?U).+)\s*</h1>|s', $site, $epC_title);
+		// old pre march 2020 version?: $ERL = preg_match('|<h1 class="episode-title">\s*((?U).+)\s*</h1>|s', $site, $epC_title);
+		$ERL = preg_match('|<p class="info__title">((?U).+)</p>|s', $site, $epC_title);
+		// var_dump($epC_title);
 		if (!$ERL || !$epC_title[1]) {
 			$epC_title = "";
 		} else {
