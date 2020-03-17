@@ -133,7 +133,7 @@ while (!empty($epC_nmbr)) {
 	
 	// Write img-urls of current episode to array $imgUrls & count them to $epImgNmbr
 	// Old pre march 2020 version?: $epImgNmbr = preg_match_all('|<img class="art-image" src="(.*)" width="|U', $site , $imgUrls);
-	$epImgNmbr = preg_match_all('|<img src="(http.*)" class="content__img">|U', $site , $imgUrls);
+	$epImgNmbr = preg_match_all('|data-src="(http.*)"|U', $site , $imgUrls);
 	if (!$epImgNmbr) if ($epC_existingObjC) {
 		// do not save M-URL if the M-file already exist.
 		$epImgNmbr = $epC_existingObjC;
@@ -169,7 +169,7 @@ while (!empty($epC_nmbr)) {
 			// Clean up the extracted EP title.
 			$epC_title = $globFnDiv2.html_entity_decode( $epC_title[1], (ENT_COMPAT | ENT_HTML401), ini_get("ISO8859-1"));
 			$pattern = array('#[\n\*\?\|\<\>\/\\\\]#', '#\:#', '#( ){2,}#', '#"#'); 
-			$replace = array(' ',                        ';',    ' ', "'");  // apparently PHP cant handle " in filenames...
+			$replace = array(' ',                        ';',    ' ',        "'");  // apparently PHP cant handle " in filenames...
 			$temp = preg_filter( $pattern, $replace, $epC_title);
 			if ($temp) $epC_title = $temp;
 		}
